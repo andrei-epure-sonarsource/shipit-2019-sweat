@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-@Component
 public class FileSensorReader implements SensorReader {
   Logger logger = LoggerFactory.getLogger(FileSensorReader.class);
 
@@ -19,12 +18,15 @@ public class FileSensorReader implements SensorReader {
     try (BufferedReader br = new BufferedReader(new FileReader("/opt/s-w-e-a-t/shower.txt"))) {
       status = br.readLine();
       if (status.equals("1")) {
+        logger.info("Return TRUE");
         return true;
       } else if (status.equals("0")) {
+        logger.info("Return FALSE");
         return false;
       }
     }
 
+    logger.info("Could not read TRUE or FALSE");
     throw new IOException("Unsupported status " + status);
   }
 }
