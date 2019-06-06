@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-@Component
 public class GpioSensorReader implements SensorReader {
   Logger logger = LoggerFactory.getLogger(FileSensorReader.class);
   final GpioController gpio = GpioFactory.getInstance();
@@ -24,6 +23,6 @@ public class GpioSensorReader implements SensorReader {
                 showerInput.isHigh(),
                 showerInput.getState().getValue());
 
-    return showerInput.getState().isHigh();
+    return showerInput.getState().isLow();
   }
 }
