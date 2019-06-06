@@ -16,6 +16,11 @@ public class ViewController {
 
   @GetMapping("/")
   public String viewStatus(Model model) {
+    return "index";
+  }
+
+  @GetMapping("/shower/status")
+  public String statusView(Model model) {
 
     ShowerAvailability sa = showerAvailabilityController.greeting("0");
 
@@ -23,5 +28,4 @@ public class ViewController {
 
     return "shower";
   }
-
 }

@@ -1,16 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>S.W.E.A.T.</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<body>
-<h1>S.W.E.A.T.</h1>
-<h2>Shower Wireless External Availability Tracker</h2>
 <div th:if="${status == T(org.sonarsource.shipit.sweat.ShowerAvailability.Status).AVAILABLE}">
 
     <h3>AVAILABLE</h3>
-
+    <img src="/available.jpg" width="300" height="300" style="transform:rotate(90deg);">
 
 </div>
 
@@ -18,7 +11,8 @@
 <div th:if="${status == T(org.sonarsource.shipit.sweat.ShowerAvailability.Status).OCCUPIED}">
 
     <h3>OCCUPIED</h3>
-
+    <img src="/occupied.png">
+    <img src="/forbidden.png">
 
 </div>
 
@@ -28,5 +22,4 @@
 
 
 </div>
-</body>
 </html>
