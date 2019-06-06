@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ShowerAvailabilityController {
 
-  private static ShowerAvailability WRONG_INPUT = new ShowerAvailability(-1, "Wrong Input");
+  private static ShowerAvailability WRONG_INPUT = new ShowerAvailability(-1, ShowerAvailability.Status.WRONG_INPUT);
+  private static ShowerAvailability IO_ERROR = new ShowerAvailability(-1, ShowerAvailability.Status.IO_ERROR);
 
   private SensorReader sensorReader;
 
@@ -18,21 +19,21 @@ public class ShowerAvailabilityController {
     this.sensorReader = sensorReader;
   }
 
-  @RequestMapping("/shower")
+  @RequestMapping("/shower/api")
   public ShowerAvailability greeting(@RequestParam(value="id", defaultValue="0") String id) {
     int parsedId = parseShowerId(id);
     if (parsedId == -1) {
       return WRONG_INPUT;
     }
 
-    String status;
+    ShowerAvailability.Status status;
     try {
       status = sensorReader.isAvailable(parsedId)
-        ? "available"
-        : "occupied";
+        ? ShowerAvailability.Status.AVAILABLE
+        : ShowerAvailability.Status.OCCUPIED;
       return new ShowerAvailability(parsedId, status);
     } catch (IOException ioe) {
-      return WRONG_INPUT;
+      return IO_ERROR;
     }
   }
 

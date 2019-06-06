@@ -2,10 +2,18 @@ package org.sonarsource.shipit.sweat;
 
 public class ShowerAvailability {
 
-  private final int id;
-  private final String status;
+  public enum Status {
+    NONE,
+    AVAILABLE,
+    OCCUPIED,
+    IO_ERROR,
+    WRONG_INPUT
+  }
 
-  public ShowerAvailability(int id, String status) {
+  private final int id;
+  private final Status status;
+
+  public ShowerAvailability(int id, Status status) {
     this.id = id;
     this.status = status;
   }
@@ -14,7 +22,7 @@ public class ShowerAvailability {
     return id;
   }
 
-  public String getStatus() {
+  public Status getStatus() {
     return status;
   }
 }
