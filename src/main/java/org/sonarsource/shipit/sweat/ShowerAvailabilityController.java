@@ -1,7 +1,10 @@
 package org.sonarsource.shipit.sweat;
 
 import java.io.IOException;
+import org.sonarsource.shipit.sweat.sensor.FileSensorReader;
+import org.sonarsource.shipit.sweat.sensor.GpioSensorReader;
 import org.sonarsource.shipit.sweat.sensor.SensorReader;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +18,10 @@ public class ShowerAvailabilityController {
 
   private SensorReader sensorReader;
 
-  public ShowerAvailabilityController(SensorReader sensorReader) {
-    this.sensorReader = sensorReader;
+  public ShowerAvailabilityController(Properties env) {
+    this.sensorReader = env.isGpio()
+        ? new GpioSensorReader()
+        : new FileSensorReader();
   }
 
   @RequestMapping("/shower/api")
