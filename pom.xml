@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>org.sonarsource.shipit</groupId>
 	<artifactId>sweat</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>sweat</name>
 	<description>SonarSource ShipIt 2019 - S.W.E.A.T. project</description>
 

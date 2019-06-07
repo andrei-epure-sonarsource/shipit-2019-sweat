@@ -4,7 +4,6 @@ import java.io.IOException;
 import org.sonarsource.shipit.sweat.sensor.FileSensorReader;
 import org.sonarsource.shipit.sweat.sensor.GpioSensorReader;
 import org.sonarsource.shipit.sweat.sensor.SensorReader;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,24 +18,26 @@ public class ShowerAvailabilityController {
   private SensorReader sensorReader;
 
   public ShowerAvailabilityController(Properties env) {
-    this.sensorReader = env.isGpio()
-        ? new GpioSensorReader()
+    this.sensorReader = env.isReal()
+        ? new GpioSensorReader(env)
         : new FileSensorReader();
   }
 
   @RequestMapping("/shower/api")
-  public ShowerAvailability greeting(@RequestParam(value="id", defaultValue="0") String id) {
+  public ShowerAvailability greeting(@RequestParam(value="id", defaultValue="1") String id) {
     int parsedId = parseShowerId(id);
     if (parsedId == -1) {
       return WRONG_INPUT;
     }
 
-    ShowerAvailability.Status status;
     try {
-      status = sensorReader.isAvailable(parsedId)
-        ? ShowerAvailability.Status.AVAILABLE
-        : ShowerAvailability.Status.OCCUPIED;
-      return new ShowerAvailability(parsedId, status);
+      Boolean isAvailable = sensorReader.isAvailable(parsedId);
+      if (isAvailable != null) {
+        return new ShowerAvailability(parsedId, isAvailable);
+      } else {
+        return new ShowerAvailability(parsedId, ShowerAvailability.Status.NONE);
+      }
+
     } catch (IOException ioe) {
       return IO_ERROR;
     }
@@ -48,9 +49,6 @@ public class ShowerAvailabilityController {
       id = Integer.parseInt(input);
     }
     catch (NumberFormatException nfe) {
-      id = -1;
-    }
-    if (id > 2) {
       id = -1;
     }
     return id;

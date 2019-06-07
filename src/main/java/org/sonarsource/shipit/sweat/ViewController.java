@@ -20,9 +20,9 @@ public class ViewController {
   }
 
   @GetMapping("/shower/status")
-  public String statusView(Model model) {
+  public String statusView(@RequestParam(value="id", defaultValue="1") String id, Model model) {
 
-    ShowerAvailability sa = showerAvailabilityController.greeting("0");
+    ShowerAvailability sa = showerAvailabilityController.greeting(id);
 
     model.addAttribute("status", sa.getStatus());
 

@@ -16,6 +16,10 @@
 
 </div>
 
+<div th:if="${status == T(org.sonarsource.shipit.sweat.ShowerAvailability.Status).NONE}">
+    <h3>Sensor is not enabled. No idea what the status could be.</h3>
+</div>
+
 <div th:if="${status == T(org.sonarsource.shipit.sweat.ShowerAvailability.Status).IO_ERROR}">
 
     <h3>IO ERROR</h3>

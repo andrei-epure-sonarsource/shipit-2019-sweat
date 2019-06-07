@@ -12,7 +12,7 @@ public class FileSensorReader implements SensorReader {
   Logger logger = LoggerFactory.getLogger(FileSensorReader.class);
 
   @Override
-  public boolean isAvailable(int id) throws IOException {
+  public Boolean isAvailable(int id) throws IOException {
     logger.info("Will read sensor for shower {}", id);
 
     String status;
